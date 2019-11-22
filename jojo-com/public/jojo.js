@@ -10,9 +10,9 @@
 // request.send()
 
 // 如果要支持IE等旧浏览器就使用JSONP实现跨域，因为JS引用是不受同源策略限制的，同源策略限制的只是对数据的请求（如AJAX）
+window.xxx = (data) => {
+    console.log(data)
+}
 const script = document.createElement('script')
 script.src = 'http://qq.com:8888/friends.js'
-script.onload = () => {
-    console.log(window.xxx)
-}
 document.body.appendChild(script)
