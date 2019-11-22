@@ -16,4 +16,7 @@ window[random] = (data) => {
 }
 const script = document.createElement('script')
 script.src = `http://qq.com:8888/friends.js?callbackName=${random}`
+script.onload = () => {
+    script.remove()
+}
 document.body.appendChild(script)
