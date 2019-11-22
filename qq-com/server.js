@@ -31,9 +31,11 @@ var server = http.createServer(function (request, response) {
     response.setHeader('Content-Type', 'text/javascript;charset=utf-8')
     response.write(fs.readFileSync('./public/qq.js'))
     response.end()
-  } else if (path === '/friends.json') {
+  } else if (path === '/friends.json') { // CORS 实现跨域
     response.statusCode = 200
     response.setHeader('Content-Type', 'text/json;charset=utf-8')
+    console.log(request.headers['referer']) // 通过打印出的referer可以知道发请求过来的是哪个网站
+    response.setHeader('Access-Control-Allow-Origin', 'http://jojo.com:9999')
     response.write(fs.readFileSync('./public/friends.json'))
     response.end()
   } else {
