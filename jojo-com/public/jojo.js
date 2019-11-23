@@ -10,13 +10,25 @@
 // request.send()
 
 // 如果要支持IE等旧浏览器就使用JSONP实现跨域，因为JS引用是不受同源策略限制的，同源策略限制的只是对数据的请求（如AJAX）
-const random = 'JOJOJSONPCallBackName' + Math.random()
-window[random] = (data) => {
-    console.log(data)
+function jsonp(url) {
+    return new Promise((resolve, reject) => {
+        const random = 'JOJOJSONPCallBackName' + Math.random()
+        window[random] = data => {
+            resolve(data)
+        }
+        const script = document.createElement('script')
+        script.src = `${url}?callbackName=${random}`
+        script.onload = () => {
+            script.remove()
+        }
+        script.onerror = () => {
+            reject()
+        }
+        document.body.appendChild(script)
+    })
 }
-const script = document.createElement('script')
-script.src = `http://qq.com:8888/friends.js?callbackName=${random}`
-script.onload = () => {
-    script.remove()
-}
-document.body.appendChild(script)
+
+jsonp('http://qq.com:8888/friends.js')
+    .then((data) => {
+        console.log(data)
+    })
